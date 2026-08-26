@@ -1,19 +1,21 @@
 import { NextRequest, NextResponse } from "next/server"
 import OpenAI from "openai"
 
-export async function POST(req: NextRequest) {
-  const apiKey = process.env.OPENAI_API_KEY
-  if (!apiKey || apiKey === "your_key") {
-    return NextResponse.json({ error: "OpenAI API key not configured" }, { status: 500 })
-  }
+const OLLAMA_BASE_URL = process.env.OLLAMA_BASE_URL || "http://localhost:11434/v1"
+const OLLAMA_MODEL = process.env.OLLAMA_MODEL || "llama3.2"
 
+export async function POST(req: NextRequest) {
   try {
     const { prompt } = await req.json()
 
-    const openai = new OpenAI({ apiKey })
+    // Ollama exposes an OpenAI-compatible API at /v1
+    const client = new OpenAI({
+      baseURL: OLLAMA_BASE_URL,
+      apiKey: "ollama", // required by the SDK but ignored by Ollama
+    })
 
-    const response = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
+    const response = await client.chat.completions.create({
+      model: OLLAMA_MODEL,
       messages: [
         {
           role: "system",
@@ -21,7 +23,6 @@ export async function POST(req: NextRequest) {
         },
         { role: "user", content: prompt },
       ],
-      max_tokens: 5,
       temperature: 0,
     })
 
@@ -30,7 +31,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ result })
   } catch (err) {
-    console.error("OpenAI error:", err)
+    console.error("Ollama error:", err)
     return NextResponse.json({ error: String(err) }, { status: 500 })
   }
 }
