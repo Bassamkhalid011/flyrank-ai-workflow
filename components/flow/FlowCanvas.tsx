@@ -257,12 +257,6 @@ export default function FlowCanvas() {
     <div className="flex h-screen bg-zinc-950 text-white overflow-hidden">
       {/* Main canvas */}
       <div className="flex-1 relative">
-        {/* API key warning */}
-        {!process.env.NEXT_PUBLIC_OPENAI_CONFIGURED && (
-          <div className="absolute top-0 left-0 right-0 z-50 bg-yellow-900/80 border-b border-yellow-700 px-4 py-2 text-sm text-yellow-200 flex items-center gap-2">
-            ⚠ OpenAI API key not configured — set OPENAI_API_KEY in .env.local
-          </div>
-        )}
 
         <ReactFlow
           nodes={nodes}
