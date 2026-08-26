@@ -123,15 +123,13 @@ export default function FlowCanvas() {
     addLog(`Starting from node: ${startNode.data.label}`, "info")
 
     try {
-      const res = await fetch("/api/workflow/execute", {
+      // Fire-and-forget Inngest event (optional — requires Inngest dev server)
+      fetch("/api/workflow/execute", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ nodes, edges, startNodeId: startNode.id }),
-      })
+      }).catch(() => {}) // ignore if Inngest not running
 
-      if (!res.ok) throw new Error("Failed to start workflow")
-
-      // Simulate local execution for real-time UI updates
       await simulateExecution(startNode.id)
     } catch (err) {
       addLog(`Error: ${err}`, "error")
