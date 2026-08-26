@@ -41,11 +41,22 @@ npm install
 
 ### 4. Configure environment variables
 
-The defaults in `.env.local` work out of the box with Ollama:
+Copy the example file and it works out of the box:
+
+```bash
+cp .env.example .env.local
+```
+
+`.env.example`:
 
 ```
+# Ollama local LLM (free, no API key needed)
+# Download Ollama from https://ollama.com
+# Then run: ollama pull gemma3:1b
 OLLAMA_BASE_URL=http://localhost:11434/v1
-OLLAMA_MODEL=llama3.2
+OLLAMA_MODEL=gemma3:1b
+
+# Inngest (use "local" for development)
 INNGEST_EVENT_KEY=local
 INNGEST_SIGNING_KEY=local
 ```
