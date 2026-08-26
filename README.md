@@ -1,5 +1,7 @@
 # AI Workflow Builder
 
+![AI Workflow Builder](docs/screenshot.png)
+
 A visual AI workflow system where each node represents an AI decision step that returns either YES or NO. The workflow execution runs through Inngest while the frontend visualizes the flow using React Flow. Runs **100% locally** using Ollama — no paid API needed.
 
 ## What it does
